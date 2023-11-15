@@ -1,7 +1,7 @@
 import pandas as pd
 from make_subsets import make_non_empty_subsets
 from make_discernibility_matrix import make_discernibility_matrix, make_simplified_discernibility_matrix
-from make_discernibility_function import make_discernibility_function
+from make_discernibility_function import make_discernibility_function, make_discernibility_vector
 
 
 if __name__ == "__main__" :
@@ -34,3 +34,4 @@ if __name__ == "__main__" :
     simplifiedDiscernibilityMatrix = make_simplified_discernibility_matrix(discernibilityMatrix, sequenceLogiqueSimplified, ensembleFinalKey)
     for element in simplifiedDiscernibilityMatrix : 
         print(element)
+    sequenceLogiqueSimplified2 : make_discernibility_vector(discernibilityMatrix, ensembleFinalKey, subsetListFinale)
