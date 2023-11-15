@@ -5,7 +5,7 @@ from io import StringIO
 from typing import List, Tuple, Set
 from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
 from make_discernibility_matrix import make_discernibility_matrix, make_simplified_discernibility_matrix
-from make_discernibility_function import make_discernibility_function
+from make_discernibility_function import make_discernibility_function, make_discernibility_vector
 
 def create_dataframe():
     data1 = {
