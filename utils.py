@@ -45,6 +45,7 @@ def find_reduct_from_vecteur(vecteur : str)-> List[str]:
             matrixOfTerms.append(listOfTerms)
         matrixOfTerms= matrixOfTerms + reduct
         allCombinations = generate_combinations(matrixOfTerms)
+        # renvoye qu'un seul reduct
         reduct = allCombinations[0]
     return reduct
         

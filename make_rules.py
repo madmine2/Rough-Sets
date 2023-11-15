@@ -1,5 +1,5 @@
 import pandas as pd
-from typing import List, Tuple, Set
+from typing import List, Tuple, Set, Dict
 from sympy import symbols, Or, And
 from sympy.logic.boolalg import to_cnf
 from sympy.logic import simplify_logic
@@ -22,7 +22,7 @@ def make_discernibility_vector(ligne : List[List[str]],ensembleFinalKey : Tuple[
         sequenceLogiqueSimplified=simplify_logic(eval(sequenceLogique), form='cnf')
     return str(sequenceLogiqueSimplified)
 
-def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...],listOfSubsets : List[Set[int]]) -> str :
+def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...],listOfSubsets : List[Set[int]]) -> Dict[int, List[str]] :
     
     rulesDict= {}
     for i, ligne in enumerate(discernibilityMatrix) : 
@@ -30,6 +30,7 @@ def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : 
         reduct = find_reduct_from_vecteur(vecteur)
         numeroSubset = min(listOfSubsets[i])
         rulesDict[numeroSubset] = reduct
+    return rulesDict
     
     
     

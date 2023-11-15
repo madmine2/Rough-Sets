@@ -27,7 +27,7 @@ def make_discernibility_matrix_with_labels(listOfSubsets : List[Set[int]], donne
     for i, groupe1 in enumerate(listOfSubsets):
         groupe1 = min(groupe1)
         tempRow = []
-        for j in range(i,len(listOfSubsets)):
+        for j in range(len(listOfSubsets)):
             groupe2 = min(listOfSubsets[j])
             tempCell = []
             if groupe1 != groupe2 : 

@@ -72,8 +72,8 @@ if __name__ == "__main__" :
     #AVEC LABELS
     simplifiedDiscernibilityMatrixlabels = make_matrix(True,subsetListFinale,df, ensembleFinalKey)
     
-    make_rules(simplifiedDiscernibilityMatrixlabels, ensembleFinalKey, subsetListFinale)
-    
+    rulesDict = make_rules(simplifiedDiscernibilityMatrixlabels, ensembleFinalKey, subsetListFinale)
+    print(rulesDict)
     
 
         
