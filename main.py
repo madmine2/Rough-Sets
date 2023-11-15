@@ -41,21 +41,22 @@ def create_dataframe():
 
 
  
-def make_matrix(labels : bool, subsetListFinale: List[Set[int]], df : pd.DataFrame, ensembleFinalKey : Tuple[str, ...]) ->List[List[List[str]]]:
+def make_matrix(labels : bool, subsetListFinale: List[Set[int]], df : pd.DataFrame, ensembleFinalKey : Tuple[str, ...], verbose: bool  = False ) ->List[List[List[str]]]:
     if labels :
        
         discernibilityMatrix = make_discernibility_matrix_with_labels( subsetListFinale, df, ensembleFinalKey)
     else :
         discernibilityMatrix = make_discernibility_matrix( subsetListFinale, df, ensembleFinalKey)
-    
-    for element in discernibilityMatrix : 
-        print(element)
-        
+    if verbose :
+        for element in discernibilityMatrix : 
+            print(element)
+            
     sequenceLogiqueSimplified = make_discernibility_function(discernibilityMatrix, ensembleFinalKey)
-    print(sequenceLogiqueSimplified)
     simplifiedDiscernibilityMatrix = make_simplified_discernibility_matrix(discernibilityMatrix, sequenceLogiqueSimplified, ensembleFinalKey)
-    for element in simplifiedDiscernibilityMatrix : 
-        print(element)
+    if verbose :
+        print(sequenceLogiqueSimplified)
+        for element in simplifiedDiscernibilityMatrix : 
+            print(element)
     return simplifiedDiscernibilityMatrix
 
         
@@ -65,7 +66,7 @@ if __name__ == "__main__" :
     # faire les subsets
     allSubsetsList, ensembleFinalKey = make_non_empty_subsets(df)  
     subsetListFinale = sorted(allSubsetsList[ensembleFinalKey], key=lambda s: min(s))
-    print(subsetListFinale)
+    #print(subsetListFinale)
     #Sans LABELS
     simplifiedDiscernibilityMatrix = make_matrix(False,subsetListFinale, df, ensembleFinalKey)
     
