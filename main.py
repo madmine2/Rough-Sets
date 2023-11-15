@@ -3,6 +3,7 @@ from make_subsets import make_non_empty_subsets
 from make_discernibility_matrix import make_discernibility_matrix, make_simplified_discernibility_matrix
 from make_discernibility_function import make_discernibility_function
 from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
+from io import StringIO
 
 def create_dataframe():
     data1 = {
@@ -19,8 +20,21 @@ def create_dataframe():
     'Size': ['Small', 'Large', 'Large', 'Large', 'Small', 'Small', 'Large', 'Large'],
     'label': ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'Yes', 'Yes']
     }   
-     
-    df = pd.DataFrame(data2)
+     # Les données que vous avez fournies
+    data_str = """groupe,Temperature,Migraine,Faiblesse,Nausee,label
+    a,haute,oui,oui,non,oui
+    a,haute,oui,non,non,oui
+    a,normale,non,non,non,non
+    a,normale,oui,oui,non,oui
+    a,normale,oui,oui,non,non
+    a,haute,non,oui,non,oui
+    a,haute,non,non,non,non
+    a,normale,non,oui,non,non
+    a,normale,non,non,oui,non"""
+
+    # Utilisez StringIO pour lire les données à partir d'une chaîne
+    df = pd.read_csv(StringIO(data_str))
+    #df = pd.DataFrame(data2)
     return(df)
 
 def make_matrix(labels : bool):

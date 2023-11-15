@@ -19,7 +19,6 @@ def make_non_empty_subsets(donnees : pd.DataFrame) -> Tuple[Dict[str, List[Set[i
         # On calcule explicitement les subsets non-vide
         if subsetNumber < (num_columns) :
             subset = subset[0]
-            #print(f"subset avec un seul élément : {subset}")
             for i in range(num_rows):     
                 caracteristiqueValue = donnees.at[i,subset]   
                 # si la valeur est déjà dans le dictionnaire, ajoute le groupe au set associé    
@@ -30,7 +29,6 @@ def make_non_empty_subsets(donnees : pd.DataFrame) -> Tuple[Dict[str, List[Set[i
                     tempDict[caracteristiqueValue] = {i}
             newListeOfSub = list(tempDict.values())
         else : # sinon, on calcule en utilsant les sets déjà fait pour aller plus vite
-            #print(f"subset avec plusieurs éléments : {subset}")
             #On compare les subsets déjà calculé pour le croisement des n-1 premiers attributs
             firstGroupe = subset[:-1]
             # avec les subsets calculé pour le dernier attribut
