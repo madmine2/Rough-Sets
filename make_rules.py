@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from typing import List, Tuple, Set, Dict
 from sympy import symbols, Or, And
 from sympy.logic.boolalg import to_cnf
@@ -32,8 +33,32 @@ def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : 
         rulesDict[numeroSubset] = reduct
     return rulesDict
     
-    
-    
+def write_rules(rulesDict, donnees : pd.DataFrame, label):
+    print(donnees)
+    valueDict = {}
+    cclDict = {}
+    for rule in rulesDict: 
+        print(f"rule '{rule}'")
+        attributes = rulesDict[rule]
+        print(attributes)
+        valueAttribute = []
+        ccl = donnees.loc[rule, label]
+        
+        for attribute in attributes:
+            valueAttribute.append(donnees.loc[rule, attribute])
+        
+        # Vérification de la longueur des listes
+        if len(attributes) == len(valueAttribute):
+            # Création de la chaîne formatée
+            conditions = " AND ".join([f"{a} = {b}" for a, b in zip(attributes, valueAttribute)])
+            resultat = f"IF {conditions}, THEN {label} = {ccl}"
+            valueDict[rule] = valueAttribute
+            cclDict[rule] = ccl
+            # Affichage du résultat
+            print(resultat)
+
+    return valueDict, cclDict
+
 if __name__ == "__main__" :
     #make_discernibility_function(discernibilityMatrix)
     pass

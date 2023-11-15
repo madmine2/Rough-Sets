@@ -1,6 +1,6 @@
 import pandas as pd
 from make_subsets import make_non_empty_subsets
-from make_rules import make_rules
+from make_rules import make_rules, write_rules
 from io import StringIO
 from typing import List, Tuple, Set
 from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
@@ -75,7 +75,9 @@ if __name__ == "__main__" :
     
     rulesDict = make_rules(simplifiedDiscernibilityMatrixlabels, ensembleFinalKey, subsetListFinale)
     print(rulesDict)
-    
+    rulesDict = {0: ['LEMS'], 1: ['LEMS'], 2: ['Age', 'LEMS'], 4: ['Age', 'LEMS'], 5: ['Age']}
+    values, ccl = write_rules(rulesDict, df, LABEL = 'label')
+    print(values, ccl)
 
         
         
