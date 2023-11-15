@@ -1,5 +1,6 @@
 import pandas as pd
 from typing import List, Tuple, Set
+from utils import find_reduct_from_vecteur
 
 def make_discernibility_matrix(listOfSubsets : List[Set[int]], donnees : pd.DataFrame, ensembleFinalKey : Tuple[str, ...]) -> List[List[List[str]]]: 
     # Préparations du df
@@ -29,14 +30,8 @@ def make_discernibility_matrix(listOfSubsets : List[Set[int]], donnees : pd.Data
 
 
 def make_simplified_discernibility_matrix(discernibilityMatrix : List[List[List[str]]], sequenceLogiqueSimplified : str,  ensembleFinalKey : Tuple[str, ...]) -> List[List[List[str]]]:
-    sequenceLogiqueSimplified = sequenceLogiqueSimplified.replace("(","")
-    sequenceLogiqueSimplified = sequenceLogiqueSimplified.replace(")","")
-    sequenceLogiqueSimplified = sequenceLogiqueSimplified.replace("|","")
-    sequenceLogiqueSimplified = sequenceLogiqueSimplified.replace("&","")
-    sequenceLogiqueSimplified = sequenceLogiqueSimplified.replace("  "," ")
-    sequenceLogiqueSimplified = sequenceLogiqueSimplified.replace("   "," ")
-    sequenceLogiqueSimplified = sequenceLogiqueSimplified.split(" ")
-    modified_matrix = [[[item for item in sublist if item in sequenceLogiqueSimplified] for sublist in lst] for lst in discernibilityMatrix]
+    reduct = find_reduct_from_vecteur(sequenceLogiqueSimplified)
+    modified_matrix = [[[item for item in sublist if item in reduct] for sublist in lst] for lst in discernibilityMatrix]
     return modified_matrix
 
 
