@@ -2,9 +2,9 @@ import pandas as pd
 from make_subsets import make_non_empty_subsets
 from make_discernibility_matrix import make_discernibility_matrix, make_simplified_discernibility_matrix
 from make_discernibility_function import make_discernibility_function
+from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
 
-
-if __name__ == "__main__" :
+def create_dataframe():
     data1 = {
         'groupe': ['u1', 'u2', 'u3', 'u4', 'u5', 'u6', 'u7'],
         'Age': ['16-30', '16-30', '31-45', '31-45', '16-30', '46-60', '46-60'],
@@ -19,12 +19,16 @@ if __name__ == "__main__" :
     'Size': ['Small', 'Large', 'Large', 'Large', 'Small', 'Small', 'Large', 'Large'],
     'label': ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'Yes', 'Yes']
     }   
-     # Create DataFrame
+     
     df = pd.DataFrame(data2)
-    allSubsetsList, ensembleFinalKey = make_non_empty_subsets(df)  
-    subsetListFinale = sorted(allSubsetsList[ensembleFinalKey], key=lambda s: min(s))
-    print(subsetListFinale)
-    discernibilityMatrix = make_discernibility_matrix( subsetListFinale, df, ensembleFinalKey)
+    return(df)
+
+def make_matrix(labels : bool):
+    if labels :
+       
+        discernibilityMatrix = make_discernibility_matrix_with_labels( subsetListFinale, df, ensembleFinalKey)
+    else :
+        discernibilityMatrix = make_discernibility_matrix( subsetListFinale, df, ensembleFinalKey)
     
     for element in discernibilityMatrix : 
         print(element)
@@ -34,3 +38,24 @@ if __name__ == "__main__" :
     simplifiedDiscernibilityMatrix = make_simplified_discernibility_matrix(discernibilityMatrix, sequenceLogiqueSimplified, ensembleFinalKey)
     for element in simplifiedDiscernibilityMatrix : 
         print(element)
+        
+        
+        
+if __name__ == "__main__" :
+    # faire le DataFrame
+    df = create_dataframe()
+    # faire les subsets
+    allSubsetsList, ensembleFinalKey = make_non_empty_subsets(df)  
+    subsetListFinale = sorted(allSubsetsList[ensembleFinalKey], key=lambda s: min(s))
+    print(subsetListFinale)
+    #Sans LABELS
+    make_matrix(False)
+    
+    #AVEC LABELS
+    make_matrix(True)
+    
+    
+    
+
+        
+        

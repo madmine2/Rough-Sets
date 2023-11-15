@@ -2,12 +2,16 @@ import pandas as pd
 from typing import List, Tuple, Set
 
 def make_discernibility_matrix(listOfSubsets : List[Set[int]], donnees : pd.DataFrame, ensembleFinalKey : Tuple[str, ...]) -> List[List[List[str]]]: 
+    # Préparations du df
     GROUPE_DROP = "groupe"
     LABEL_DROP = "label"
     donnees = donnees.drop(GROUPE_DROP, axis=1)
     donnees = donnees.drop(LABEL_DROP, axis=1) 
     column_names = donnees.columns.tolist()
-    num_rows, num_columns = donnees.shape
+    
+    # forme la matrice triangulaire en comparant subsets par subsets (groupe1 vs groupe2),
+    # si ils sont les même alors les caractéristiques différentes sont forcément l'ensemble nul.
+    # Sinon, en comparant caractéristique par charactéristique et on retient à chaque fois qu'elles sont différentes
     discernibilityMatrix = []
     for i, groupe1 in enumerate(listOfSubsets):
         groupe1 = min(groupe1)
