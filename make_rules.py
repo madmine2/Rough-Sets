@@ -40,7 +40,6 @@ def write_rules(rulesDict, donnees : pd.DataFrame, label):
     for rule in rulesDict: 
         print(f"rule '{rule}'")
         attributes = rulesDict[rule]
-        print(attributes)
         valueAttribute = []
         ccl = donnees.loc[rule, label]
         
