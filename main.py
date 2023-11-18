@@ -7,6 +7,9 @@ from make_discenibility_matrix_with_labels import make_discernibility_matrix_wit
 from make_discernibility_matrix import make_discernibility_matrix, make_simplified_discernibility_matrix
 from make_discernibility_function import make_discernibility_function, make_discernibility_vector
 from quality_measures import measures
+from constant import *
+
+
 def create_dataframe():
     data1 = {
         'groupe': ['u1', 'u2', 'u3', 'u4', 'u5', 'u6', 'u7'],
@@ -72,15 +75,16 @@ if __name__ == "__main__" :
     
     #AVEC LABELS
     simplifiedDiscernibilityMatrixlabels = make_matrix(True,subsetListFinale,df, ensembleFinalKey)
-    
+    # Make rules
     rulesDict = make_rules(simplifiedDiscernibilityMatrixlabels, ensembleFinalKey, subsetListFinale)
     print(rulesDict)
     rulesDict = {0: ['LEMS'], 1: ['LEMS'], 2: ['Age', 'LEMS'], 4: ['Age', 'LEMS'], 5: ['Age']}
-    LABEL = 'label'
-    values, ccl = write_rules(rulesDict, df, LABEL)
+    # Writre rules
+    values, ccl = write_rules(rulesDict, df)
     print(values, ccl)
-
-    for rule in rulesDict:
-        supp, strength, accuracy, coverage = measures(df, rulesDict, rule, values, ccl, LABEL)
+    print(rulesDict)
+    for index in rulesDict:
+        rule = rulesDict[index]
+        supp, strength, accuracy, coverage = measures(df, rule,index)
         
         

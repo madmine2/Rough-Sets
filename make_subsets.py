@@ -1,12 +1,11 @@
 import pandas as pd
 from itertools import chain, combinations
 from typing import List, Tuple, Set, Dict
+from constant import *
 
 def make_non_empty_subsets(donnees : pd.DataFrame) -> Tuple[Dict[str, List[Set[int]]], Tuple[str, ...]]:
-    GROUPE_DROP = "groupe"
-    LABEL_DROP = "label"
-    donnees = donnees.drop(GROUPE_DROP, axis=1)
-    donnees = donnees.drop(LABEL_DROP, axis=1) 
+    donnees = donnees.drop(GROUPE, axis=1)
+    donnees = donnees.drop(LABEL, axis=1) 
     column_names = donnees.columns.tolist()
     num_rows, num_columns = donnees.shape
     # On génére toutes les combinaisons possibles d'associations de groupes

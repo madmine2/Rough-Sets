@@ -1,13 +1,12 @@
 import pandas as pd
 from typing import List, Tuple, Set
 from utils import find_reduct_from_vecteur
+from constant import *
 
 def make_discernibility_matrix(listOfSubsets : List[Set[int]], donnees : pd.DataFrame, ensembleFinalKey : Tuple[str, ...]) -> List[List[List[str]]]: 
     # Préparations du df
-    GROUPE_DROP = "groupe"
-    LABEL_DROP = "label"
-    donnees = donnees.drop(GROUPE_DROP, axis=1)
-    donnees = donnees.drop(LABEL_DROP, axis=1) 
+    donnees = donnees.drop(GROUPE, axis=1)
+    donnees = donnees.drop(LABEL, axis=1) 
     column_names = donnees.columns.tolist()
     
     # forme la matrice triangulaire en comparant subsets par subsets (groupe1 vs groupe2),

@@ -5,6 +5,7 @@ from sympy import symbols, Or, And
 from sympy.logic.boolalg import to_cnf
 from sympy.logic import simplify_logic
 from utils import make_sequence_logique, find_reduct_from_vecteur
+from constant import *
 
 def make_discernibility_vector(ligne : List[List[str]],ensembleFinalKey : Tuple[str, ...]):
     # tous les termes répétés entre les "et" peuvent être supprimé, le set permet de le faire automatiquement
@@ -24,16 +25,19 @@ def make_discernibility_vector(ligne : List[List[str]],ensembleFinalKey : Tuple[
     return str(sequenceLogiqueSimplified)
 
 def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...],listOfSubsets : List[Set[int]]) -> Dict[int, List[str]] :
-    
     rulesDict= {}
-    for i, ligne in enumerate(discernibilityMatrix) : 
-        vecteur = make_discernibility_vector(ligne,ensembleFinalKey)
+    # Pour chaque colonne de la matrice de discernabilité
+    for i, colonne in enumerate(discernibilityMatrix) : 
+        # On crée le vecteur logique simplifié de la matrcie
+        vecteur = make_discernibility_vector(colonne,ensembleFinalKey)
+        # On trouve un des reducts possibles à partir de ce vecteur (ex : vecteur logique = A & (B | C) => reduct possible = {A,B})
         reduct = find_reduct_from_vecteur(vecteur)
         numeroSubset = min(listOfSubsets[i])
+        # On associe le reduct au subset correspondant à la colonne        
         rulesDict[numeroSubset] = reduct
     return rulesDict
     
-def write_rules(rulesDict, donnees : pd.DataFrame, label):
+def write_rules(rulesDict, donnees : pd.DataFrame):
     print(donnees)
     valueDict = {}
     cclDict = {}
@@ -41,7 +45,7 @@ def write_rules(rulesDict, donnees : pd.DataFrame, label):
         print(f"rule '{rule}'")
         attributes = rulesDict[rule]
         valueAttribute = []
-        ccl = donnees.loc[rule, label]
+        ccl = donnees.loc[rule, LABEL]
         
         for attribute in attributes:
             valueAttribute.append(donnees.loc[rule, attribute])
@@ -50,7 +54,7 @@ def write_rules(rulesDict, donnees : pd.DataFrame, label):
         if len(attributes) == len(valueAttribute):
             # Création de la chaîne formatée
             conditions = " AND ".join([f"{a} = {b}" for a, b in zip(attributes, valueAttribute)])
-            resultat = f"IF {conditions}, THEN {label} = {ccl}"
+            resultat = f"IF {conditions}, THEN {LABEL} = {ccl}"
             valueDict[rule] = valueAttribute
             cclDict[rule] = ccl
             # Affichage du résultat
