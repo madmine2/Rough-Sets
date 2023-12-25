@@ -1,7 +1,6 @@
 import pandas as pd
 from typing import List, Tuple, Set
 from utils import find_reduct_from_vecteur
-from constant import *
 
 def make_discernibility_matrix(listOfSubsets : List[Set[int]], donnees : pd.DataFrame, ensembleFinalKey : Tuple[str, ...]) -> List[List[List[str]]]: 
     # Préparations du df

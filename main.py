@@ -1,12 +1,11 @@
 import pandas as pd
 from make_subsets import make_non_empty_subsets
 from make_rules import make_rules, write_rules
-from io import StringIO
+#from io import StringIO
 from typing import List, Tuple, Set
 #from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
 from discernibility import make_discernibility_matrix, make_simplified_discernibility_matrix, make_discernibility_matrix_with_labels, make_discernibility_function, make_discernibility_vector
 from quality_measures import measures
-from constant import *
 
 def create_dataframe():
     data1 = { 

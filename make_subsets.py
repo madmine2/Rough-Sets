@@ -1,7 +1,6 @@
 import pandas as pd
 from itertools import chain, combinations
 from typing import List, Tuple, Set, Dict
-from constant import *
 
 def make_non_empty_subsets(donnees : pd.DataFrame, LABEL_DROP) -> Tuple[Dict[str, List[Set[int]]], Tuple[str, ...]]:
     donnees = donnees.drop(LABEL_DROP, axis=1) 

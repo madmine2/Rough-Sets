@@ -47,12 +47,18 @@ expr = P & (C | S)
 result = simplify_logical_expression(expr)
 
 print(result)"""
-# Liste à transformer en matrice
-flat_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-# Transformation en matrice
-matrix = [flat_list[i:i+1] for i in range(0, len(flat_list))]
-
-# Affichage de la matrice
+# Matrice avec des chaînes de caractères contenant des symboles de citation simple
+matrix = [
+    ["abc", "'def'", "ghi"],
+    ["jkl", "mno", "'pqr'"],
+    ["'stu'", "vwx", "'yz'"]
+]
 print(matrix)
+# Suppression des symboles de citation simple dans chaque chaîne
+matrix_without_quotes = [[element.replace("'", "") for element in row] for row in matrix]
+
+# Affichage de la matrice sans les symboles de citation simple
+for row in matrix_without_quotes:
+    print(row)
+
 
