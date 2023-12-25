@@ -2,11 +2,8 @@ import pandas as pd
 from typing import List, Tuple, Set
 from utils import find_reduct_from_vecteur
 
-def make_discernibility_matrix_with_labels(listOfSubsets : List[Set[int]], donnees : pd.DataFrame, ensembleFinalKey : Tuple[str, ...]) -> List[List[List[str]]]: 
+def make_discernibility_matrix_with_labels(listOfSubsets : List[Set[int]], donnees : pd.DataFrame, ensembleFinalKey : Tuple[str, ...], LABEL) -> List[List[List[str]]]: 
     # Préparations du df
-    GROUPE_DROP = "groupe"
-    LABEL = "label"
-    donnees = donnees.drop(GROUPE_DROP, axis=1)
     column_names = donnees.columns.tolist()
     column_names.remove(LABEL)
     

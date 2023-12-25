@@ -35,11 +35,10 @@ def measures (donnees : pd.DataFrame, rulesDict, ruleNbr, label):
     coverage = supp/U_v
     accuracy = supp/phi
     strength = supp/num_rows
-
-    print(f"Quality measures of rule n°{ruleNbr}")
-    print(f"support = {supp}, strength = {strength}, accuracy = {accuracy}, coverage = {coverage}")
+    
+    print(f"Quality measures of rule n°{ruleNbr}:")
+    print(f"support = {supp}, strength = {strength}, accuracy = {accuracy}, coverage = {coverage}\n")
     return supp, strength, accuracy, coverage
-        
 
 if __name__ == "__main__" :
     #make_discernibility_function(discernibilityMatrix)

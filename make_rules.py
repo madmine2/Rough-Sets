@@ -5,6 +5,7 @@ from sympy import symbols, Or, And
 from sympy.logic.boolalg import to_cnf
 from sympy.logic import simplify_logic
 from utils import make_sequence_logique, find_reduct_from_vecteur
+from discernibility import make_discernibility_matrix, make_simplified_discernibility_matrix, make_discernibility_matrix_with_labels, make_discernibility_function, make_discernibility_vector
 
 def make_discernibility_vector(ligne : List[List[str]],ensembleFinalKey : Tuple[str, ...]):
     # tous les termes répétés entre les "et" peuvent être supprimé, le set permet de le faire automatiquement
@@ -24,21 +25,21 @@ def make_discernibility_vector(ligne : List[List[str]],ensembleFinalKey : Tuple[
     return str(sequenceLogiqueSimplified)
 
 def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...],listOfSubsets : List[Set[int]]) -> Dict[int, List[str]] :
-    
     rulesDict= {}
     for i, ligne in enumerate(discernibilityMatrix) : 
         vecteur = make_discernibility_vector(ligne,ensembleFinalKey)
+        
         reduct = find_reduct_from_vecteur(vecteur)
+        #reduct = make_discernibility_function(vecteur)
+        
         numeroSubset = min(listOfSubsets[i])
         rulesDict[numeroSubset] = reduct
     return rulesDict
     
 def write_rules(rulesDict, donnees : pd.DataFrame, label):
-    print(donnees)
     valueDict = {}
     cclDict = {}
     for rule in rulesDict: 
-        print(f"rule '{rule}'")
         attributes = rulesDict[rule]
         valueAttribute = []
         ccl = donnees.loc[rule, label]
@@ -54,7 +55,7 @@ def write_rules(rulesDict, donnees : pd.DataFrame, label):
             valueDict[rule] = valueAttribute
             cclDict[rule] = ccl
             # Affichage du résultat
-            print(resultat)
+            print(f"rule '{rule}': {resultat}")
 
     return valueDict, cclDict
 

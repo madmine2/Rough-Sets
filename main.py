@@ -3,84 +3,94 @@ from make_subsets import make_non_empty_subsets
 from make_rules import make_rules, write_rules
 from io import StringIO
 from typing import List, Tuple, Set
-from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
-from make_discernibility_matrix import make_discernibility_matrix, make_simplified_discernibility_matrix
-from make_discernibility_function import make_discernibility_function, make_discernibility_vector
+#from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
+from discernibility import make_discernibility_matrix, make_simplified_discernibility_matrix, make_discernibility_matrix_with_labels, make_discernibility_function, make_discernibility_vector
 from quality_measures import measures
+
 def create_dataframe():
-    data1 = {
+    data1 = { 
         'groupe': ['u1', 'u2', 'u3', 'u4', 'u5', 'u6', 'u7'],
         'Age': ['16-30', '16-30', '31-45', '31-45', '16-30', '46-60', '46-60'],
         'Sex': ['Male', 'Male', 'Male', 'Male', 'Female', 'Female', 'Female'],
         'LEMS': ['50+', '0', '1-25', '1-25', '26-49', '26-49', '26-49'],
         'label': ['Yes', 'No', 'No', 'Yes', 'Yes', 'No', 'No']
     }
-    # data2 = {
-    # 'groupe': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-    # 'Polarity': ['Non-polar', 'Non-polar', 'Non-polar', 'Non-polar', 'Polar', 'Polar', 'Polar', 'Polar'],
-    # 'Charge': ['Negative', 'Positive', 'Positive', 'Neutral', 'Negative', 'Negative', 'Neutral', 'Neutral'],
-    # 'Size': ['Small', 'Large', 'Large', 'Large', 'Small', 'Small', 'Large', 'Large'],
-    # 'label': ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'Yes', 'Yes']
-    # }   
-    #  # Les données que vous avez fournies
-    # data_str = """groupe,Temperature,Migraine,Faiblesse,Nausee,label
-    # a,haute,oui,oui,non,oui
-    # a,haute,oui,non,non,oui
-    # a,normale,non,non,non,non
-    # a,normale,oui,oui,non,oui
-    # a,normale,oui,oui,non,non
-    # a,haute,non,oui,non,oui
-    # a,haute,non,non,non,non
-    # a,normale,non,oui,non,non
-    # a,normale,non,non,oui,non"""
-
+    data2 = {
+        'groupe': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+        'Polarity': ['Non-polar', 'Non-polar', 'Non-polar', 'Non-polar', 'Polar', 'Polar', 'Polar', 'Polar'],
+        'Charge': ['Negative', 'Positive', 'Positive', 'Neutral', 'Negative', 'Negative', 'Neutral', 'Neutral'],
+        'Size': ['Small', 'Large', 'Large', 'Large', 'Small', 'Small', 'Large', 'Large'],
+        'label': ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'Yes', 'Yes']
+    }   
     # # Utilisez StringIO pour lire les données à partir d'une chaîne
     # df = pd.read_csv(StringIO(data_str))
-    df = pd.DataFrame(data1)
+
+    df = pd.DataFrame(data2)
+    print(df)
     return(df)
 
 
- 
-def make_matrix(labels : bool, subsetListFinale: List[Set[int]], df : pd.DataFrame, ensembleFinalKey : Tuple[str, ...], verbose: bool  = False ) ->List[List[List[str]]]:
+def make_matrix(labels : bool, subsetListFinale: List[Set[int]], df : pd.DataFrame, ensembleFinalKey : Tuple[str, ...], LABEL_DROP, verbose: bool  = False) ->List[List[List[str]]]:
     if labels :
-       
-        discernibilityMatrix = make_discernibility_matrix_with_labels( subsetListFinale, df, ensembleFinalKey)
+        discernibilityMatrix = make_discernibility_matrix_with_labels(subsetListFinale, df, ensembleFinalKey, LABEL_DROP)
+        if verbose :
+            print(f"\nMatrice de discernabilité modulo la décision (matrice symmétrique complète): ")
+            for element in discernibilityMatrix : 
+                print(element)
     else :
-        discernibilityMatrix = make_discernibility_matrix( subsetListFinale, df, ensembleFinalKey)
-    if verbose :
-        for element in discernibilityMatrix : 
-            print(element)
+        discernibilityMatrix = make_discernibility_matrix( subsetListFinale, df, ensembleFinalKey, LABEL_DROP)
+        if verbose :
+            print(f"\nMatrice de discernabilité (matrice triangulaire inférieure car symmétrique):")
+            for element in discernibilityMatrix : 
+                print(element)
             
     sequenceLogiqueSimplified = make_discernibility_function(discernibilityMatrix, ensembleFinalKey)
-    simplifiedDiscernibilityMatrix = make_simplified_discernibility_matrix(discernibilityMatrix, sequenceLogiqueSimplified, ensembleFinalKey)
+    #simplifiedDiscernibilityMatrix = make_simplified_discernibility_matrix(discernibilityMatrix, sequenceLogiqueSimplified, ensembleFinalKey)
     if verbose :
-        print(sequenceLogiqueSimplified)
-        for element in simplifiedDiscernibilityMatrix : 
-            print(element)
-    return simplifiedDiscernibilityMatrix
+        print(f"\nRésultat de la fonction de discernabilité simplifiée = {sequenceLogiqueSimplified}")
+        #for element in simplifiedDiscernibilityMatrix : 
+        #    print(element)
+    return discernibilityMatrix
 
-        
+
 if __name__ == "__main__" :
-    # faire le DataFrame
-    df = create_dataframe()
-    # faire les subsets
-    allSubsetsList, ensembleFinalKey = make_non_empty_subsets(df)  
-    subsetListFinale = sorted(allSubsetsList[ensembleFinalKey], key=lambda s: min(s))
-    #print(subsetListFinale)
-    #Sans LABELS
-    simplifiedDiscernibilityMatrix = make_matrix(False,subsetListFinale, df, ensembleFinalKey)
+    # lecture des données
+    csv_file = "grippe.csv"
+    data = pd.read_csv(csv_file)
+    df = pd.DataFrame(data)
+
+    print(df)
     
-    #AVEC LABELS
-    simplifiedDiscernibilityMatrixlabels = make_matrix(True,subsetListFinale,df, ensembleFinalKey)
+    #df = create_dataframe()
+
+    #!!!!!!!!!!!!!!!! CHANGER LE LABEL ET GROUPE-DROP EN FONCTION DU JEU DE DONNEES !!!!!!!!!!!!!!!!
+    #nom de la colonne  avec le label: 
+    label = 'grypa'
+    #on supprime les potentielles données inutiles 
+    #(s'il y a par exemple une colonne avec l'id de chaque élément)
+    GROUPE_DROP=""
+    if GROUPE_DROP:
+        df = df.drop(GROUPE_DROP, axis=1)
+
+    # subsets d'inscernabilité
+    allSubsetsList, ensembleFinalKey = make_non_empty_subsets(df, LABEL_DROP = label)  
+    subsetListFinale = sorted(allSubsetsList[ensembleFinalKey], key=lambda s: min(s))
+    print(f"\nSous-ensemble de discernabilité = {subsetListFinale}")
+    
+    #matrice de discernabilité:
+    #a) sans LABELS (optionnel)
+    #simplifiedDiscernibilityMatrix = make_matrix(False,subsetListFinale, df, ensembleFinalKey, label)
+    #b) avec LABELS
+    simplifiedDiscernibilityMatrixlabels = make_matrix(True,subsetListFinale,df, ensembleFinalKey, label)
     
     rulesDict = make_rules(simplifiedDiscernibilityMatrixlabels, ensembleFinalKey, subsetListFinale)
-    print(rulesDict)
-    rulesDict = {0: ['LEMS'], 1: ['LEMS'], 2: ['Age', 'LEMS'], 4: ['Age', 'LEMS'], 5: ['Age']}
-    LABEL = 'label'
-    values, ccl = write_rules(rulesDict, df, LABEL)
-    print(values, ccl)
+    #print(f"\nDict = {rulesDict}")
 
+    print("\n ===================== SET OF RULES =====================")
+    values, ccl = write_rules(rulesDict, df, label)
+    (values, ccl)
+    
+    print("\n===================== QUALITY MEASURES OF EACH RULE =====================")
     for rule in rulesDict:
-        supp, strength, accuracy, coverage = measures(df, rulesDict, rule, values, ccl, LABEL)
-        
-        
+        supp, strength, accuracy, coverage = measures(df, rulesDict, rule, label)
+    

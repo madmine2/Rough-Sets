@@ -1,0 +1,10 @@
+Temperature,Migraine,Faiblesse,Nausée,grypa
+haute,oui,oui,non,oui
+haute,oui,non,non,oui
+normale,non,non,non,non
+normale,oui,oui,non,oui
+normale,oui,oui,non,non
+haute,non,oui,non,oui
+haute,non,non,non,non
+normale,non,oui,non,non
+normale,non,non,oui,non
