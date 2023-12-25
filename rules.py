@@ -4,25 +4,8 @@ from typing import List, Tuple, Set, Dict
 from sympy import symbols, Or, And
 from sympy.logic.boolalg import to_cnf
 from sympy.logic import simplify_logic
-from utils import make_sequence_logique, find_reduct_from_vecteur
+from utils import find_reduct_from_vecteur
 from discernibility import make_discernibility_matrix, make_simplified_discernibility_matrix, make_discernibility_matrix_with_labels, make_discernibility_function, make_discernibility_vector
-
-def make_discernibility_vector(ligne : List[List[str]],ensembleFinalKey : Tuple[str, ...]):
-    # tous les termes répétés entre les "et" peuvent être supprimé, le set permet de le faire automatiquement
-    setOfEntries = set()
-    # Chaque caractéristique est enregistrée comme un symbole
-    symboles = symbols(ensembleFinalKey)
-    for element in ligne : 
-        # garde que les éléments uniques en les mettant dans un set
-        if element != [] :
-            elementTuple = tuple(element)
-            setOfEntries.add(elementTuple)
-    # Avec tous les éléments, on fait une expressions logique 
-    sequenceLogique = make_sequence_logique(setOfEntries, ensembleFinalKey)
-    # et on la simplifie autant que possible
-    if len(sequenceLogique) != 0:
-        sequenceLogiqueSimplified=simplify_logic(eval(sequenceLogique), form='cnf')
-    return str(sequenceLogiqueSimplified)
 
 def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...],listOfSubsets : List[Set[int]]) -> Dict[int, List[str]] :
     rulesDict= {}
@@ -36,7 +19,7 @@ def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : 
         # On associe le reduct au subset correspondant à la colonne        
         rulesDict[numeroSubset] = reduct
     return rulesDict
-    
+
 def write_rules(rulesDict, donnees : pd.DataFrame, label):
     valueDict = {}
     cclDict = {}
@@ -44,7 +27,7 @@ def write_rules(rulesDict, donnees : pd.DataFrame, label):
         attributes = rulesDict[rule]
         valueAttribute = []
         ccl = donnees.loc[rule, label]
-        
+
         for attribute in attributes:
             valueAttribute.append(donnees.loc[rule, attribute])
         

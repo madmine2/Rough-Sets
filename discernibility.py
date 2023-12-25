@@ -92,34 +92,23 @@ def make_discernibility_function(discernibilityMatrix : List[List[List[str]]], e
     sequenceLogiqueSimplified=simplify_logic(eval(sequenceLogique), form='cnf')
     return str(sequenceLogiqueSimplified)
 
-
-def make_discernibility_vector(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...], subsetListFinale : List[Set[int]]) -> str :
+def make_discernibility_vector(ligne : List[List[str]],ensembleFinalKey : Tuple[str, ...]):
     # tous les termes répétés entre les "et" peuvent être supprimé, le set permet de le faire automatiquement
     setOfEntries = set()
-    #symboles = symbols(ensembleFinalKey)
     # Chaque caractéristique est enregistrée comme un symbole
-    print(discernibilityMatrix)
-
-    #pour chaque règle: 
-    for i in subsetListFinale: 
-        for j in subsetListFinale: 
-            element = discernibilityMatrix[i[j]]
+    symboles = symbols(ensembleFinalKey)
+    for element in ligne : 
+        # garde que les éléments uniques en les mettant dans un set
+        if element != [] :
             elementTuple = tuple(element)
             setOfEntries.add(elementTuple)
-        print(setOfEntries)
+    # Avec tous les éléments, on fait une expressions logique 
+    sequenceLogique = make_sequence_logique(setOfEntries, ensembleFinalKey)
+    # et on la simplifie autant que possible
+    if len(sequenceLogique) != 0:
+        sequenceLogiqueSimplified=simplify_logic(eval(sequenceLogique), form='cnf')
+    return str(sequenceLogiqueSimplified)
 
-    sequenceLogique = ""
-    for entrie in setOfEntries : 
-        termeTemporaire = "( "
-        for t in entrie : 
-            position = ensembleFinalKey.index(t)
-            termeTemporaire += f"symboles[{position}]"+" | "
-        termeTemporaire = termeTemporaire[:-2] + ")"
-        sequenceLogique += termeTemporaire + " & "
-    sequenceLogique = sequenceLogique[:-2]
-
-    sequenceLogiqueSimplified=simplify_logic(eval(sequenceLogique), form='cnf')
-    return str(sequenceLogiqueSimplified) 
 
 if __name__ == "__main__" :
     #make_discernibility_matrix(listOfSubsets , donnees, ensembleFinalKey)

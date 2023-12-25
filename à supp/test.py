@@ -1,4 +1,3 @@
-"""
 from itertools import product
 
 def generate_combinations(list_of_lists):
@@ -46,19 +45,7 @@ def simplify_logical_expression(expr):
 expr = P & (C | S)
 result = simplify_logical_expression(expr)
 
-print(result)"""
-# Matrice avec des chaînes de caractères contenant des symboles de citation simple
-matrix = [
-    ["abc", "'def'", "ghi"],
-    ["jkl", "mno", "'pqr'"],
-    ["'stu'", "vwx", "'yz'"]
-]
-print(matrix)
-# Suppression des symboles de citation simple dans chaque chaîne
-matrix_without_quotes = [[element.replace("'", "") for element in row] for row in matrix]
+print(result)
 
-# Affichage de la matrice sans les symboles de citation simple
-for row in matrix_without_quotes:
-    print(row)
 
 

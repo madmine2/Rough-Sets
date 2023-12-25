@@ -56,24 +56,8 @@ def find_reduct_from_vecteur(vecteur : str)-> List[str]:
         allCombinations = generate_combinations(matrixOfTerms)
         reduct = allCombinations[0]
     return reduct
-        
-    """            # Chaque caractéristique est enregistrée comme un symbole
-    symboles = symbols(ensembleFinalKey)
-    # tous les termes répétés entre les "et" peuvent être supprimé, le set permet de supprimer les doublons
-    # ex : (a | b) & (a) & (a | b) == (a | b) & (a)  
-    setOfEntries = set()
-    for ligne in discernibilityMatrix : 
-        for element in ligne : 
-            if element != [] :
-                elementTuple = tuple(element)
-                setOfEntries.add(elementTuple)
-    # constituer la séquence logique à partir des éléments uniques
-    sequenceLogique = make_sequence_logique(setOfEntries, ensembleFinalKey)
-    print(f"sequenceLogique= {sequenceLogique}")
-    # Simplifier la séquence logique
-    sequenceLogiqueSimplified=simplify_logic(eval(sequenceLogique), form='cnf')
-    return str(sequenceLogiqueSimplified)
-    """
+
+
 if __name__ == "__main__" :
     vect = "Polarity & (Charge | Size)"
     find_reduct_from_vecteur(vect)

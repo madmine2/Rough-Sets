@@ -1,10 +1,9 @@
 import pandas as pd
 from make_subsets import make_non_empty_subsets
-from make_rules import make_rules, write_rules
-#from io import StringIO
+from rules import make_rules, write_rules
 from typing import List, Tuple, Set
 #from make_discenibility_matrix_with_labels import make_discernibility_matrix_with_labels
-from discernibility import make_discernibility_matrix, make_simplified_discernibility_matrix, make_discernibility_matrix_with_labels, make_discernibility_function, make_discernibility_vector
+from discernibility import *
 from quality_measures import measures
 
 def create_dataframe():
@@ -22,8 +21,6 @@ def create_dataframe():
         'Size': ['Small', 'Large', 'Large', 'Large', 'Small', 'Small', 'Large', 'Large'],
         'label': ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'Yes', 'Yes']
     }   
-    # # Utilisez StringIO pour lire les données à partir d'une chaîne
-    # df = pd.read_csv(StringIO(data_str))
 
     df = pd.DataFrame(data2)
     print(df)
@@ -77,7 +74,7 @@ if __name__ == "__main__" :
     subsetListFinale = sorted(allSubsetsList[ensembleFinalKey], key=lambda s: min(s))
     print(f"\nSous-ensemble de discernabilité = {subsetListFinale}")
     
-    #matrice de discernabilité:
+    #Matrice de discernabilité:
     #a) sans LABELS (optionnel)
     #simplifiedDiscernibilityMatrix = make_matrix(False,subsetListFinale, df, ensembleFinalKey, label)
     #b) avec LABELS
@@ -86,7 +83,7 @@ if __name__ == "__main__" :
     rulesDict = make_rules(simplifiedDiscernibilityMatrixlabels, ensembleFinalKey, subsetListFinale)
     #print(f"\nDict = {rulesDict}")
 
-    print("\n ===================== SET OF RULES =====================")
+    print("\n===================== SET OF RULES =====================")
     values, ccl = write_rules(rulesDict, df, label)
     (values, ccl)
     

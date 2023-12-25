@@ -25,6 +25,34 @@ def make_discernibility_function(discernibilityMatrix : List[List[List[str]]], e
 def make_discernibility_vector(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...], subsetListFinale : List[Set[int]]) -> str :
     # tous les termes répétés entre les "et" peuvent être supprimé, le set permet de le faire automatiquement
     setOfEntries = set()
+    #symboles = symbols(ensembleFinalKey)
+    # Chaque caractéristique est enregistrée comme un symbole
+    print(discernibilityMatrix)
+
+    #pour chaque règle: 
+    for i in subsetListFinale: 
+        for j in subsetListFinale: 
+            element = discernibilityMatrix[i[j]]
+            elementTuple = tuple(element)
+            setOfEntries.add(elementTuple)
+        print(setOfEntries)
+
+    sequenceLogique = ""
+    for entrie in setOfEntries : 
+        termeTemporaire = "( "
+        for t in entrie : 
+            position = ensembleFinalKey.index(t)
+            termeTemporaire += f"symboles[{position}]"+" | "
+        termeTemporaire = termeTemporaire[:-2] + ")"
+        sequenceLogique += termeTemporaire + " & "
+    sequenceLogique = sequenceLogique[:-2]
+
+    sequenceLogiqueSimplified=simplify_logic(eval(sequenceLogique), form='cnf')
+    return str(sequenceLogiqueSimplified) 
+    
+def make_discernibility_vector(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : Tuple[str, ...], subsetListFinale : List[Set[int]]) -> str :
+    # tous les termes répétés entre les "et" peuvent être supprimé, le set permet de le faire automatiquement
+    setOfEntries = set()
     symboles = symbols(ensembleFinalKey)
     # Chaque caractéristique est enregistrée comme un symbole
     print(discernibilityMatrix)
