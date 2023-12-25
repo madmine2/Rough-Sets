@@ -33,6 +33,7 @@ def make_rules(discernibilityMatrix : List[List[List[str]]], ensembleFinalKey : 
         #reduct = make_discernibility_function(vecteur)
         
         numeroSubset = min(listOfSubsets[i])
+        # On associe le reduct au subset correspondant à la colonne        
         rulesDict[numeroSubset] = reduct
     return rulesDict
     
@@ -42,7 +43,7 @@ def write_rules(rulesDict, donnees : pd.DataFrame, label):
     for rule in rulesDict: 
         attributes = rulesDict[rule]
         valueAttribute = []
-        ccl = donnees.loc[rule, label]
+        ccl = donnees.loc[rule, LABEL]
         
         for attribute in attributes:
             valueAttribute.append(donnees.loc[rule, attribute])
@@ -51,7 +52,7 @@ def write_rules(rulesDict, donnees : pd.DataFrame, label):
         if len(attributes) == len(valueAttribute):
             # Création de la chaîne formatée
             conditions = " AND ".join([f"{a} = {b}" for a, b in zip(attributes, valueAttribute)])
-            resultat = f"IF {conditions}, THEN {label} = {ccl}"
+            resultat = f"IF {conditions}, THEN {LABEL} = {ccl}"
             valueDict[rule] = valueAttribute
             cclDict[rule] = ccl
             # Affichage du résultat
