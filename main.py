@@ -53,6 +53,7 @@ def make_matrix(labels : bool, subsetListFinale: List[Set[int]], df : pd.DataFra
 if __name__ == "__main__" :
     # lecture des données
     csv_file = "grippe.csv"
+    #csv_file = "cancer_du_sein.csv"
     data = pd.read_csv(csv_file)
     df = pd.DataFrame(data)
 
@@ -62,7 +63,11 @@ if __name__ == "__main__" :
 
     #!!!!!!!!!!!!!!!! CHANGER LE LABEL ET GROUPE-DROP EN FONCTION DU JEU DE DONNEES !!!!!!!!!!!!!!!!
     #nom de la colonne  avec le label: 
+    #pour grippe.csv:
     label = 'grypa'
+    #pour cancer_du_sein.csv:
+    #label = 'V10'
+
     #on supprime les potentielles données inutiles 
     #(s'il y a par exemple une colonne avec l'id de chaque élément)
     GROUPE_DROP=""
